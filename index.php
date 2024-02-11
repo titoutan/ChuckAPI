@@ -2,6 +2,8 @@
 require_once('functions.php');
 $http_method = $_SERVER['REQUEST_METHOD'];
 switch ($http_method){
+  case 'OPTIONS' : 
+    deliver_response(204,"");
   case 'GET' :
     //Récupération des données dans l’URL
     if(isset($_GET['id']))
@@ -109,6 +111,9 @@ function deliver_response($status_code, $status_message, $data=null){
   http_response_code($status_code); //Utilise un message standardisé enfonction du code HTTP
   //header("HTTP/1.1 $status_code $status_message"); //Permet depersonnaliser le message associé au code HTTP
   header("Content-Type:application/json; charset=utf-8");//Indique auclient le format de la réponse
+  header("Access-Control-Allow-Origin:*");
+  header("Access-Control-Allow-Methods:GET,POST,PATCH,PUT,DELETE,OPTIONS");
+  header("Access-Control-Allow-Headers:content-type,authorization");
   $response['status_code'] = $status_code;
   $response['status_message'] = $status_message;
   $response['data'] = $data;
