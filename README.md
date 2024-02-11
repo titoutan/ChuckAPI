@@ -1,1 +1,3 @@
-# v1
+# V1
+Sans redirection de chemin
+Sans authentification 
