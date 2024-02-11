@@ -50,6 +50,7 @@ switch ($http_method){
     else {
       deliver_response(400, '[R401 API REST] : paramètre id manquant');
     }
+    break;
   case 'PUT':
     if(isset($_GET['id']))
     {
