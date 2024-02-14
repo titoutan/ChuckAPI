@@ -6,3 +6,7 @@ RewriteRule ^([0-9]+)$ index.php?id=$1
 RewriteRule ^last/?([0-9]+)?$ index.php?action=last&n=$1
 RewriteRule ^popular/?([0-9]+)?$ index.php?action=popular&n=$1
 RewriteRule ^reported/?([0-9]+)?$ index.php?action=reported&n=$1
+RewriteRule ^upvote/?([0-9]+)$ index.php?action=upvote&n=$1
+RewriteRule ^downvote/?([0-9]+)$ index.php?action=downvote&n=$1
+RewriteRule ^report/?([0-9]+)$ index.php?action=report&n=$1
+RewriteRule ^unreport/?([0-9]+)$ index.php?action=unreport&n=$1
