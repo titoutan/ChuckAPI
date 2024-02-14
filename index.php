@@ -5,20 +5,7 @@ switch ($http_method){
   case 'OPTIONS' : 
     deliver_response(204,"");
   case 'GET' :
-    //Récupération des données dans l’URL
-    if(isset($_GET['id']))
-    {
-      $id=htmlspecialchars($_GET['id']);
-      $data = getData($id);
-      if (empty($data) ) {
-        deliver_response(404, 'NOT FOUND');
-        die();
-      }
-    }
-    else {
-      $data = getData(null);
-    }
-    deliver_response(200, 'OK', $data);
+    traiterGet();
     break;
   case 'POST' :
     $data = recupererDataDansCorps();
@@ -100,6 +87,49 @@ switch ($http_method){
 
 }
 
+function traiterGet() {
+    //Récupération des données dans l’URL
+    if(!isset($_GET['action'])) {
+      if(isset($_GET['id']))
+      {
+        $id=htmlspecialchars($_GET['id']);
+        $data = getData($id);
+        if (empty($data) ) {
+          deliver_response(404, 'NOT FOUND');
+          die();
+        }
+      }
+      else {
+        $data = getData();
+
+      }
+    }
+    else {
+      switch($_GET['action']) {
+        case 'last':
+          if (!empty($_GET['n'])) {
+            $data = getLast($_GET['n']);
+          } else {
+            $data = getLast();
+          }
+          break;
+        case 'popular':
+          if (!empty($_GET['n'])) {
+            $data = getPopular($_GET['n']);
+          } else {
+            $data = getPopular();
+          }
+          break;
+        case 'reported':
+          if (!empty($_GET['n'])) {
+            $data = getReported($_GET['n']);
+          } else {
+            $data = getReported();
+          }
+      }
+    }
+    deliver_response(200, 'OK', $data);
+}
 function recupererDataDansCorps() {
     // Récupération des données dans le corps
     $postedData = file_get_contents('php://input');

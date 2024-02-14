@@ -1,4 +1,8 @@
 RewriteEngine On
 
 RewriteRule ^$ index.php
-RewriteRule ^([0-9]+) index.php?id=$1
+RewriteRule ^([0-9]+)$ index.php?id=$1
+
+RewriteRule ^last/?([0-9]+)?$ index.php?action=last&n=$1
+RewriteRule ^popular/?([0-9]+)?$ index.php?action=popular&n=$1
+RewriteRule ^reported/?([0-9]+)?$ index.php?action=reported&n=$1

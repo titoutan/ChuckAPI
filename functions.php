@@ -1,7 +1,7 @@
 <?php
 require_once('ConnexionDB.php');
 
-function getData($id) {
+function getData($id=null) {
   $linkpdo = ConnexionDB::getInstance()->getPdo();
   if (isset($id)) {
     $data = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id=:id');
@@ -12,6 +12,45 @@ function getData($id) {
   }
   else {
     $data = $linkpdo->query('SELECT * FROM chuckn_facts');
+  }
+  return $data->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getLast($n=null) {
+  $linkpdo = ConnexionDB::getInstance()->getPdo();
+  if (isset($n)) {
+    $data = $linkpdo->query("SELECT * FROM chuckn_facts ORDER BY date_ajout DESC LIMIT $n");
+  }
+  else {
+    $data = $linkpdo->query('SELECT * FROM chuckn_facts ORDER BY date_ajout');
+  }
+  return $data->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getPopular($n = null) {
+  $linkpdo = ConnexionDB::getInstance()->getPdo();
+  if (isset($n)) {
+    $data = $linkpdo->query("SELECT * FROM chuckn_facts ORDER BY vote DESC LIMIT $n");
+    if (!$data) {
+      return false;
+    }
+  }
+  else {
+    $data = $linkpdo->query('SELECT * FROM chuckn_facts ORDER BY vote');
+  }
+  return $data->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getReported($n = null) {
+  $linkpdo = ConnexionDB::getInstance()->getPdo();
+  if (isset($n)) {
+    $data = $linkpdo->query("SELECT * FROM chuckn_facts WHERE signalement ORDER BY date_ajout DESC LIMIT $n");
+    if (!$data) {
+      return false;
+    }
+  }
+  else {
+    $data = $linkpdo->query('SELECT * FROM chuckn_facts WHERE signalement ORDER BY date_ajout');
   }
   return $data->fetchAll(PDO::FETCH_ASSOC);
 }
